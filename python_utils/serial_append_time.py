@@ -8,7 +8,7 @@ from read_stdin import readline, ignore_until_first_csi_line
 # `idf.py monitor | python ../python_utils/serial_append_timestamp.py`
 #
 
-ignore_until_first_csi_line()
+# ignore_until_first_csi_line()
 
 #
 # Append subsequent lines with the current timestamp

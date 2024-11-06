@@ -6,6 +6,7 @@
 #include "freertos/event_groups.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
+#include "esp_task_wdt.h"
 #include "esp_http_server.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
@@ -19,7 +20,7 @@
 #ifdef CONFIG_WIFI_CHANNEL
 #define WIFI_CHANNEL CONFIG_WIFI_CHANNEL
 #else
-#define WIFI_CHANNEL 6
+#define WIFI_CHANNEL 8
 #endif
 
 #ifdef CONFIG_SHOULD_COLLECT_CSI
@@ -72,7 +73,7 @@ void passive_init() {
     ESP_ERROR_CHECK(esp_wifi_start());
 
     const wifi_promiscuous_filter_t filt = {
-            .filter_mask = WIFI_PROMIS_FILTER_MASK_DATA
+            .filter_mask = WIFI_PROMIS_FILTER_MASK_ALL
     };
 
     int curChannel = WIFI_CHANNEL;
@@ -88,5 +89,6 @@ extern "C" void app_main(void) {
     sd_init();
     passive_init();
     csi_init((char *) "PASSIVE");
+    esp_task_wdt_init(10, true);
     input_loop();
 }
