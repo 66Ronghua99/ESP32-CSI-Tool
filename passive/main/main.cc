@@ -16,6 +16,27 @@
 #include "../../_components/csi_component.h"
 #include "../../_components/time_component.h"
 #include "../../_components/input_component.h"
+// #include "driver/uart.h"
+// #include "esp_log.h"
+
+// #define RX_BUFF_SIZE 1024
+// #define UART_PORT UART_NUM_2
+// #define RX_PIN GPIO_NUM_13
+// #define TX_PIN GPIO_NUM_15
+
+// void init_uart(void) {
+//     uart_config_t uart_conf = {
+//         .baud_rate = 115200,
+//         .data_bits = UART_DATA_8_BITS,
+//         .stop_bits = UART_STOP_BITS_1,
+//         .parity = UART_PARITY_DISABLE,
+//         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE,
+//         .source_clk = UART_SCLK_APB,
+//     };
+//     uart_param_config(UART_PORT, &uart_conf);
+//     uart_set_pin(UART_PORT, TX_PIN, RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
+//     uart_driver_install(UART_PORT, RX_BUFF_SIZE, RX_BUFF_SIZE, 8, NULL, 0);
+// }
 
 #ifdef CONFIG_WIFI_CHANNEL
 #define WIFI_CHANNEL CONFIG_WIFI_CHANNEL
@@ -89,6 +110,6 @@ extern "C" void app_main(void) {
     sd_init();
     passive_init();
     csi_init((char *) "PASSIVE");
-    esp_task_wdt_init(10, true);
+    // esp_task_wdt_init(10, true);
     input_loop();
 }
