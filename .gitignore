@@ -2,4 +2,5 @@ build/
 sdkconfig.old
 .idea
 venv
-*/.vscode
+.vscode/
+__pycache__/
