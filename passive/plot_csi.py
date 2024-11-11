@@ -33,5 +33,7 @@ def carrier_plot(data, output="plot.png", type="Amplitude"):
     plt.savefig(output)
 
 args, perm_amp, perm_phase = process_data()
-carrier_plot(perm_amp, args.output_plot)
-# carrier_plot(perm_phase, "phase.png")
+if args.amplitude:
+    carrier_plot(perm_amp, f"{args.output_plot}_amp.png")
+if args.phase:
+    carrier_plot(perm_phase, f"{args.output_plot}_pha.png", type="Phase")

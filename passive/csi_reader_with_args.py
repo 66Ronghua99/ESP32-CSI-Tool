@@ -36,11 +36,11 @@ def process_data() -> Tuple[Any, List[int], List[int]]:
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="input data")
     parser.add_argument("-op", "--output_plot", help="save file")
-    parser.add_argument("-a", "--amplitude", action="store_false", help="save file")
+    parser.add_argument("-am", "--amplitude", action="store_true", help="amplitude")
+    parser.add_argument("-ph", "--phase", action="store_true", help="phase")
     parser.add_argument("-l", "--length", default=200, type=int, help="save file")
     parser.add_argument("--mac", default="54:EF:44:5D:59:27", help="target mac address")
     args = parser.parse_args()
-    # target_mac = "54:EF:44:5D:59:27"
     # Deque definition
     perm_amp = collections.deque(maxlen=args.length)
     perm_phase = collections.deque(maxlen=args.length)
