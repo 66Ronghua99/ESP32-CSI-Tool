@@ -1,24 +1,27 @@
 import subprocess
 import pty
 import os
+import time
+from argparse import ArgumentParser
 
-# # 定义要执行的命令
-# command = "bash -c 'idf.py monitor -p /dev/ttyUSB0'"
+parser = ArgumentParser()
+parser.add_argument("-p","--port")
+parser.add_argument("-o", "--output")
+args = parser.parse_args()
 
-# # 使用subprocess.Popen来执行命令，并捕获输出
 # process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
 master, slave = pty.openpty()
 
 # 定义要执行的命令
-command = "sourceidf; idf.py monitor -p /dev/ttyUSB0"
+command = f"sourceidf; idf.py monitor -p {args.port}"
 
 # 使用 subprocess.Popen 来执行命令，指定伪终端的 slave 作为 stdin 和 stdout
 process = subprocess.Popen(command, shell=True, stdin=slave, stdout=slave, stderr=subprocess.STDOUT, close_fds=True)
 
 # 打开一个文件用于写入输出
 try:
-    with open('my-experiment-file.csv', 'w') as file:
+    with open(args.output, 'w') as file:
         print("Open file")
         # 使用循环来读取输出
         while True:
@@ -34,6 +37,10 @@ try:
             if "CSI_DATA" not in line_decoded:
                 continue
             # 将输出行写入文件
+            if "len" in line_decoded:
+                line_decoded = "time," + line_decoded
+            else:
+                line_decoded = str(time.time()) + "," + line_decoded
             file.write(line_decoded)
             # 同时在控制台打印输出
             print(line_decoded, end='')

@@ -28,7 +28,7 @@ def main():
         plt.plot(range(0, len(variance)), variance)
         # variance_dict[subcarrier]= variance_dict
     # plt.show()
-    plt.savefig(args.output_plot)
+    plt.savefig(f"{args.output_dir}/{args.data.split("/")[-1].split(".")[0]}_variance.png")
 
 
 if __name__ == "__main__":

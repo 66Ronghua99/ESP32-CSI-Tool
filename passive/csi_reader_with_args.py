@@ -4,7 +4,7 @@ from typing import List, Tuple, Any
 def process_line(res):
     # Parser
     all_data = res.split(',')
-    csi_data = all_data[25].split(" ")
+    csi_data = all_data[26].split(" ")
     csi_data[0] = csi_data[0].replace("[", "")
     csi_data[-1] = csi_data[-1].replace("]", "")
 
@@ -35,22 +35,34 @@ def process_data() -> Tuple[Any, List[int], List[int]]:
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="input data")
-    parser.add_argument("-op", "--output_plot", help="save file")
+    parser.add_argument("-od", "--output_dir", help="save file")
     parser.add_argument("-am", "--amplitude", action="store_true", help="amplitude")
     parser.add_argument("-ph", "--phase", action="store_true", help="phase")
     parser.add_argument("-l", "--length", default=200, type=int, help="save file")
     parser.add_argument("--mac", default="54:EF:44:5D:59:27", help="target mac address")
     args = parser.parse_args()
     # Deque definition
-    perm_amp = collections.deque(maxlen=args.length)
-    perm_phase = collections.deque(maxlen=args.length)
+    perm_amp = []
+    perm_phase = []
+    count = 0
     with open(args.data, "r") as f:
         for line in f:
             line = line.replace('\x00', '').strip()
             if "CSI_DATA" in line and args.mac in line and "task_wdt" not in line:
+                if not line.strip().endswith("]"):
+                    print(line)
                 amplitudes, phases = process_line(line)
                 perm_phase.append(phases)
                 perm_amp.append(amplitudes)
+                try:
+                    import numpy as np
+                    np.asarray(perm_amp, dtype=np.int32)
+                except:
+                    print(line)
+                    break
+                count += 1
+                if count >= args.length:
+                    break
     return args, perm_amp, perm_phase
 
     

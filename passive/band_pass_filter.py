@@ -7,9 +7,10 @@ args, amplitudes, phases = process_data()
 
 data = np.asarray(amplitudes)
 subcarrier = 44
+print(data)
 csi_data = data[:, subcarrier]
 
-fs = 1
+fs = 4
 
 # 傅里叶变换
 N = len(csi_data)
