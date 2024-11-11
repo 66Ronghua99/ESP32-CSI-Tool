@@ -35,14 +35,15 @@ def process_data() -> Tuple[Any, List[int], List[int]]:
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--data", help="input data")
-    parser.add_argument("-o", "--output", help="save file")
+    parser.add_argument("-op", "--output_plot", help="save file")
     parser.add_argument("-a", "--amplitude", action="store_false", help="save file")
+    parser.add_argument("-l", "--length", default=200, type=int, help="save file")
     parser.add_argument("--mac", default="54:EF:44:5D:59:27", help="target mac address")
     args = parser.parse_args()
     # target_mac = "54:EF:44:5D:59:27"
     # Deque definition
-    perm_amp = collections.deque(maxlen=200)
-    perm_phase = collections.deque(maxlen=200)
+    perm_amp = collections.deque(maxlen=args.length)
+    perm_phase = collections.deque(maxlen=args.length)
     with open(args.data, "r") as f:
         for line in f:
             line = line.replace('\x00', '').strip()
