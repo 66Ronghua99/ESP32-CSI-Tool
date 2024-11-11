@@ -2,7 +2,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from csi_reader import process_data
+from csi_reader_with_args import process_data
 
 # Set subcarrier to plot
 # subcarrier = 44
@@ -33,5 +33,5 @@ def carrier_plot(data, output="plot.png", type="Amplitude"):
     plt.savefig(output)
 
 args, perm_amp, perm_phase = process_data()
-carrier_plot(perm_amp, args.output)
+carrier_plot(perm_amp, args.output_plot)
 # carrier_plot(perm_phase, "phase.png")
